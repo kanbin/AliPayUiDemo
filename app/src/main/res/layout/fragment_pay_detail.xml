@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/re_pay_detail"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        >
 
         <ScrollView
             android:layout_width="match_parent"
@@ -54,34 +55,6 @@
                     android:background="@color/line"/>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="信用卡还款"
-                        android:textColor="@color/text_color_grey" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text="农业银行"
-                        android:textColor="@color/text_color_grey" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/line"/>
-
-                <RelativeLayout
                     android:id="@+id/re_pay_way"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,7 +91,9 @@
                     android:paddingBottom="15dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:paddingTop="15dp">
+                    android:paddingTop="15dp"
+                    android:visibility="gone"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -183,17 +158,26 @@
         android:id="@+id/lin_pay_way"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/re_pay_detail"
         android:background="#ffffff"
         android:orientation="vertical"
-        android:visibility="gone">
-
+        android:layout_toRightOf="@+id/re_pay_detail"
+        android:visibility="gone"
+        >
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
-            android:padding="10dp">
+            >
+
+            <ImageView
+                android:id="@+id/pay_way_iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_open"
+                android:layout_alignParentLeft="true"
+                android:padding="10dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -201,13 +185,14 @@
                 android:layout_centerInParent="true"
                 android:text="选择支付方式" />
 
-            <ImageView
-                android:id="@+id/close_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_margin="10dp"
-                android:src="@mipmap/ic_close" />
+            <!--<ImageView-->
+                <!--android:id="@+id/close_two"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:src="@mipmap/ic_close" -->
+                <!--/>-->
         </RelativeLayout>
 
         <View
@@ -224,29 +209,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.example.hfs.alipayuidemo.ScrollviewListView
-                    android:id="@+id/lv_bank"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:listSelector="#ffffff"/>
+                <!--<com.example.hfs.alipayuidemo.ScrollviewListView-->
+                    <!--android:id="@+id/lv_bank"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:listSelector="#ffffff"/>-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:background="#ffffff"
-                    android:drawableRight="@mipmap/ic_open"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="15dp"
-                    android:text="添加银行卡" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="1dp"-->
+                    <!--android:background="#ffffff"-->
+                    <!--android:drawableRight="@mipmap/ic_open"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:paddingBottom="15dp"-->
+                    <!--android:paddingLeft="20dp"-->
+                    <!--android:paddingRight="20dp"-->
+                    <!--android:paddingTop="15dp"-->
+                    <!--android:text="添加银行卡" />-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/line"/>
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/line"/>-->
 
                 <RelativeLayout
                     android:id="@+id/re_balance"
@@ -256,7 +241,9 @@
                     android:background="#ffffff"
                     android:paddingBottom="10dp"
                     android:paddingLeft="20dp"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp"
+                    android:visibility="gone"
+                    >
 
                     <ImageView
                         android:id="@+id/img_balance"
@@ -285,6 +272,78 @@
                         android:textSize="10sp" />
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/pay_way_rl_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/pay_way_iv_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_launcher"
+                        />
+
+                    <TextView
+                        android:id="@+id/pay_way_tv_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="兑换券支付"
+                        android:layout_toRightOf="@id/pay_way_iv_balance"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/pay_way_tv_balance"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="推荐"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/pay_way_rl_alipay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/pay_way_iv_alipay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_launcher"
+                        />
+
+                    <TextView
+                        android:id="@+id/pay_way_tv_alipay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付宝"
+                        android:layout_toRightOf="@id/pay_way_iv_alipay"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_toRightOf="@id/pay_way_tv_alipay"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:text="推荐"-->
+                        <!--/>-->
+
+                </RelativeLayout>
+
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
@@ -293,9 +352,9 @@
         android:id="@+id/lin_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/re_pay_detail"
+        android:orientation="vertical"
         android:visibility="gone"
-        android:orientation="vertical">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"

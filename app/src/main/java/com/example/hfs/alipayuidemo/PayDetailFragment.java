@@ -1,11 +1,13 @@
 package com.example.hfs.alipayuidemo;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -26,7 +28,7 @@ import android.widget.Toast;
 /**
  * 底部弹窗Fragment
  */
-public class PayDetailFragment extends DialogFragment {
+public class PayDetailFragment extends DialogFragment implements View.OnClickListener {
     private RelativeLayout rePayWay, rePayDetail, reBalance;
     private LinearLayout LinPayWay,linPass;
     private ListView lv;
@@ -34,6 +36,9 @@ public class PayDetailFragment extends DialogFragment {
     private EditText gridPasswordView;
 
     private ImageView imageCloseOne,imageCloseTwo,imageCloseThree;
+    private View mIvPayWayBack;
+    private View mRlBalance;
+    private View mRlAlipay;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +63,6 @@ public class PayDetailFragment extends DialogFragment {
         window.setAttributes(lp);
 
         initView(dialog);
-
 
         if (getDialog() != null) {
             getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -87,22 +91,28 @@ public class PayDetailFragment extends DialogFragment {
         rePayWay = (RelativeLayout) dialog.findViewById(R.id.re_pay_way);
         rePayDetail = (RelativeLayout) dialog.findViewById(R.id.re_pay_detail);//付款详情
         LinPayWay = (LinearLayout) dialog.findViewById(R.id.lin_pay_way);//付款方式
-        lv = (ListView) dialog.findViewById(R.id.lv_bank);//付款方式（银行卡列表）
+//        lv = (ListView) dialog.findViewById(R.id.lv_bank);//付款方式（银行卡列表）
         reBalance = (RelativeLayout) dialog.findViewById(R.id.re_balance);//付款方式（余额）
         btnPay = (Button) dialog.findViewById(R.id.btn_confirm_pay);
         gridPasswordView = (EditText) dialog.findViewById(R.id.pass_view);
         linPass = (LinearLayout)dialog.findViewById(R.id.lin_pass);
         imageCloseOne= (ImageView) dialog.findViewById(R.id.close_one);
-        imageCloseTwo= (ImageView) dialog.findViewById(R.id.close_two);
+//        imageCloseTwo= (ImageView) dialog.findViewById(R.id.close_two);
         imageCloseThree= (ImageView) dialog.findViewById(R.id.close_three);
         rePayWay.setOnClickListener(listener);
         reBalance.setOnClickListener(listener);
         btnPay.setOnClickListener(listener);
         imageCloseOne.setOnClickListener(listener);
-        imageCloseTwo.setOnClickListener(listener);
+//        imageCloseTwo.setOnClickListener(listener);
         imageCloseThree.setOnClickListener(listener);
 
-
+        // me
+        mIvPayWayBack = dialog.findViewById(R.id.pay_way_iv_back);  // 选择支付方式-返回按钮
+        mRlBalance = dialog.findViewById(R.id.pay_way_rl_balance);  // 兑换券支付
+        mRlAlipay = dialog.findViewById(R.id.pay_way_rl_alipay);    // 支付宝支付
+        mIvPayWayBack.setOnClickListener(this);
+        mRlBalance.setOnClickListener(this);
+        mRlAlipay.setOnClickListener(this);
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
@@ -126,17 +136,54 @@ public class PayDetailFragment extends DialogFragment {
                     LinPayWay.setVisibility(View.GONE);
                     break;
                 case R.id.btn_confirm_pay://确认付款
-                    rePayDetail.startAnimation(slide_left_to_left);
-                    rePayDetail.setVisibility(View.GONE);
-                    linPass.startAnimation(slide_right_to_left);
-                    linPass.setVisibility(View.VISIBLE);
+//                    rePayDetail.startAnimation(slide_left_to_left);
+//                    rePayDetail.setVisibility(View.GONE);
+//                    linPass.startAnimation(slide_right_to_left);
+//                    linPass.setVisibility(View.VISIBLE);
+
+                    dismiss();
+
+
+                    final Dialog dialog = new Dialog(getActivity(), R.style.BottomDialog);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 设置Content前设定
+                    dialog.setContentView(R.layout.fragment_pay_pwd);
+                    dialog.setCanceledOnTouchOutside(true); // 外部点击取消
+                    // 设置宽度为屏宽, 靠近屏幕底部。
+                    final Window window = dialog.getWindow();
+                    window.setWindowAnimations(R.style.AnimBottom);
+                    final WindowManager.LayoutParams lp = window.getAttributes();
+                    lp.gravity = Gravity.BOTTOM; // 紧贴底部
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT; // 宽度持平
+                    lp.height = getActivity().getWindowManager().getDefaultDisplay().getHeight() / 5;
+                    window.setAttributes(lp);
+
+                    final EditText et = (EditText) dialog.findViewById(R.id.pay_psw_et);
+                    Button btnCommit = (Button) dialog.findViewById(R.id.pay_psw_commit);
+                    btnCommit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String psw = et.getText().toString();
+                            Toast.makeText(MainApplication.getContext(), "密码：" + psw, Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    });
+
+//                    et.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Toast.makeText(getContext(), "密码", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+
+                    dialog.show();
+
                     break;
                 case R.id.close_one:
                     getDialog().dismiss();
                     break;
-                case R.id.close_two:
-                    getDialog().dismiss();
-                    break;
+//                case R.id.close_two:
+//                    getDialog().dismiss();
+//                    break;
                 case R.id.close_three:
                     getDialog().dismiss();
                     break;
@@ -145,4 +192,28 @@ public class PayDetailFragment extends DialogFragment {
             }
         }
     };
+
+    @Override
+    public void onClick(View v) {
+        Animation slide_left_to_left = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_left_to_left);
+        Animation slide_right_to_left = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_right_to_left);
+        Animation slide_left_to_right = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_left_to_right);
+        Animation slide_left_to_left_in = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_left_to_left_in);
+
+        switch (v.getId()) {
+            case R.id.pay_way_iv_back:
+                break;
+
+            case R.id.pay_way_iv_balance:
+                break;
+
+            case R.id.pay_way_iv_alipay:
+                break;
+        }
+
+        rePayDetail.startAnimation(slide_left_to_left_in);
+        rePayDetail.setVisibility(View.VISIBLE);
+        LinPayWay.startAnimation(slide_left_to_right);
+        LinPayWay.setVisibility(View.GONE);
+    }
 }
